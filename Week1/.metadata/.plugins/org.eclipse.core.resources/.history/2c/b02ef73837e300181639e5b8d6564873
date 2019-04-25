@@ -1,0 +1,54 @@
+package project_eCommerce;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.PreparedStatement;
+
+
+
+
+
+public class db_connect {
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub		
+		
+		//Load Driver
+		try {
+			// The newInstance() call is a work around for some
+			// broken Java implementations
+			Connection conn;
+			conn = DriverManager.getConnection("jdbc:sqlite:Users\\sangmin\\project_20181017.db", "root", "root"); 
+		    System.out.println("Connection to SQLite has been established.");
+		    		    
+		    Statement stmt = conn.createStatement(); 
+			//    	"Show top 3 customers who spent the most and their gender and age.\n" 
+
+		    String query = "with customer_orders as (select customer.c_id, c_name, c_email, c_gender, c_age, o_id, o_status from customer, orders where customer.c_id = orders.c_id and o_status not in (\"canceled\"))" 
+		    + "select c_name, c_email, c_gender, c_age, sum(sal_total) from sales, customer_orders where sales.o_id = customer_orders.o_id group by c_id order by sum(sal_total) desc limit 3";
+		    
+		    ResultSet rs = stmt.executeQuery(query);
+		    System.out.print(query);
+			while (rs.next()) {
+				System.out.print(rs.getString("c_name\t"));
+				System.out.print(rs.getString("c_email\t"));
+				System.out.print(rs.getString("c_gender\t"));
+				System.out.print(rs.getString("c_age\t"));
+				System.out.print(rs.getString("sum(sal_total)\n"));
+			}
+		
+
+		    stmt.close();	
+		    conn.close();
+		} catch (Exception ex) {
+			// handle the error
+		}
+
+		    
+	
+	}
+}
+

@@ -1,0 +1,45 @@
+package project_eCommerce;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.PreparedStatement;
+
+public class db_connect {
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub		
+		try {	
+			Connection conn;
+			conn = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\hlee2\\Downloads\\db_university.db", "root", "root"); 
+		    System.out.println("Connection to SQLite has been established.");
+		    Statement stmt = conn.createStatement(); 
+		   	//         �� Do Actual Work ��.
+		    ResultSet rs = stmt.executeQuery("select dept_name, avg (salary) as avg_salary from instructor group by dept_name");
+			while (rs.next()) {
+				System.out.println(rs.getString("dept_name") + " " + rs.getFloat(2));				
+			}
+			String inp_dep_name="Finance";
+			PreparedStatement pStmt = conn.prepareStatement("insert into instructor values(?,?,?,?)");
+			pStmt.setString(1, "93679");      
+			pStmt.setString(2, "Perry5");
+			pStmt.setString(3, inp_dep_name);   
+			pStmt.setInt(4, 125000);
+			pStmt.executeUpdate();    
+			
+			rs = stmt.executeQuery("select * from instructor");
+			while (rs.next()) {
+				System.out.println(rs.getString("name")+" "+rs.getString("dept_name"));				
+			}	
+		
+		
+
+		    stmt.close();	
+		    conn.close();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+}

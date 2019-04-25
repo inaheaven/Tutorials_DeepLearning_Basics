@@ -1,0 +1,14 @@
+<members date="20161225">
+	<member id="kim">
+		<name>김철수</name>
+		<age>30</age>
+		<gender>남자</gender>
+		<addr>마포 공덕</addr>
+	</member>
+	<member id="park">
+		<name>박영희</name>
+		<age>40</age>
+		<gender>여자</gender>
+		<addr>용산 도원</addr>
+	</member>
+</members>
